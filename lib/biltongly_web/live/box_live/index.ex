@@ -25,7 +25,7 @@ defmodule BiltonglyWeb.BoxLive.Index do
       # Phoenix.PubSub.subscribe(Biltong.PubSub, "biltong:metrics")
     end
 
-    {:ok, assign(socket, initial_state)}
+    {:ok, assign(socket, initial_state), layout: {BiltonglyWeb.Layouts, :root}}
   end
 
   @impl true
