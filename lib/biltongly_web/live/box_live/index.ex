@@ -17,7 +17,8 @@ defmodule BiltonglyWeb.BoxLive.Index do
       connected?: true,
       latest_update: DateTime.utc_now(),
       doneness_percent: 45,
-      ant_risk_level: Enum.random([:low, :medium, :high])
+      # Enum.random([:low, :medium, :high])
+      ant_risk_level: :low
     }
 
     if connected?(socket) do
@@ -25,9 +26,8 @@ defmodule BiltonglyWeb.BoxLive.Index do
       # Phoenix.PubSub.subscribe(Biltong.PubSub, "biltong:metrics")
     end
 
-    # spawn a process that updates the ant risk level every 5 seconds
     Process.send_after(self(), :update_ant_risk_level, 5_000)
-
+    IO.puts("Mounted BoxLive.Index!!")
     {:ok, assign(socket, initial_state), layout: {BiltonglyWeb.Layouts, :root}}
   end
 
