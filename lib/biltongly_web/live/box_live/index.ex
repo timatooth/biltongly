@@ -12,7 +12,7 @@ defmodule BiltonglyWeb.BoxLive.Index do
       humidity_setpoint: 70.0,
       temp_alert_range: {20, 30},
       humidity_alert_range: {60, 75},
-      camera_url: "/images/biltong.webp",
+      camera_url: "/images/biltong-action.jpeg",
       timelapse_position: 0,
       connected?: true,
       latest_update: DateTime.utc_now(),
