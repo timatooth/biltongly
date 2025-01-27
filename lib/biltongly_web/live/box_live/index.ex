@@ -25,6 +25,9 @@ defmodule BiltonglyWeb.BoxLive.Index do
       # Phoenix.PubSub.subscribe(Biltong.PubSub, "biltong:metrics")
     end
 
+    # spawn a process that updates the ant risk level every 5 seconds
+    Process.send_after(self(), :update_ant_risk_level, 5_000)
+
     {:ok, assign(socket, initial_state), layout: {BiltonglyWeb.Layouts, :root}}
   end
 
@@ -39,6 +42,21 @@ defmodule BiltonglyWeb.BoxLive.Index do
     {:noreply,
      assign(socket,
        temp_setpoint: value
+     )}
+  end
+
+  # Add a handle_info callback to update the ant risk level
+  # every 5 seconds
+  @impl true
+  def handle_info(:update_ant_risk_level, socket) do
+    new_risk_level = Enum.random([:low, :medium, :high])
+
+    # Schedule another update. God this is silly
+    Process.send_after(self(), :update_ant_risk_level, 5_000)
+
+    {:noreply,
+     assign(socket,
+       ant_risk_level: new_risk_level
      )}
   end
 end
