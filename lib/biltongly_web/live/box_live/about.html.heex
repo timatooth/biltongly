@@ -1,0 +1,103 @@
+<div class="min-h-screen bg-gray-900 text-green-400 p-6 font-mono">
+  <div class="max-w-6xl mx-auto">
+    <!-- Navigation -->
+    <div class="flex justify-between items-center mb-6">
+      <div class="flex space-x-4">
+        <.link
+          navigate={~p"/"}
+          class="text-green-400 hover:text-green-300 px-4 py-2 rounded-t-lg bg-black/50"
+        >
+          MONITOR
+        </.link>
+        <.link
+          navigate={~p"/about"}
+          class="text-green-400 hover:text-green-300 px-4 py-2 rounded-t-lg bg-black/50"
+        >
+          ABOUT
+        </.link>
+      </div>
+    </div>
+    
+<!-- About Content -->
+    <div class="grid grid-cols-12 gap-6">
+      <div class="col-span-12 bg-black/50 rounded-lg p-6">
+        <h1 class="text-2xl font-bold mb-6">BILTONG BOX TECHNICAL SPECIFICATIONS</h1>
+        
+<!-- Hardware Specs -->
+        <div class="mb-8">
+          <h2 class="text-xl mb-4 text-green-300">HARDWARE COMPONENTS</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <h3 class="text-lg mb-2">COMPUTE UNIT</h3>
+              <div class="space-y-2 text-sm">
+                <p>Model: Raspberry Pi 4B</p>
+                <p>Memory: 4GB RAM</p>
+                <p>Storage: 32GB MicroSD</p>
+                <p>OS: Nerves/Buildroot</p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg mb-2">SENSORS</h3>
+              <div class="space-y-2 text-sm">
+                <p>Temperature/Humidity: DHT22</p>
+                <p>Camera: Raspberry Pi Camera V2</p>
+                <p>Resolution: 1080p@30fps</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+<!-- Control Systems -->
+        <div class="mb-8">
+          <h2 class="text-xl mb-4 text-green-300">CONTROL SYSTEMS</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <h3 class="text-lg mb-2">CLIMATE CONTROL</h3>
+              <div class="space-y-2 text-sm">
+                <p>Heat Source: 60W Incandescent Lamp</p>
+                <p>Heat Control: 5V Relay Module</p>
+                <p>Air Circulation: 12V DC Fan</p>
+                <p>Fan Control: PWM via MOSFET</p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg mb-2">CONNECTIVITY</h3>
+              <div class="space-y-2 text-sm">
+                <p>Primary: WiFi 5GHz</p>
+                <p>VPN: WireGuard</p>
+                <p>Protocol: Distributed Erlang</p>
+                <p>Deployment: Fly.io</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+<!-- Operating Parameters -->
+        <div>
+          <h2 class="text-xl mb-4 text-green-300">OPERATING PARAMETERS</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <h3 class="text-lg mb-2">TEMPERATURE</h3>
+              <div class="space-y-2 text-sm">
+                <p>Operating Range: 15-35°C</p>
+                <p>Optimal Range: 20-25°C</p>
+                <p>Sensor Accuracy: ±0.5°C</p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg mb-2">HUMIDITY</h3>
+              <div class="space-y-2 text-sm">
+                <p>Operating Range: 40-80%</p>
+                <p>Optimal Range: 60-65%</p>
+                <p>Sensor Accuracy: ±2%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
