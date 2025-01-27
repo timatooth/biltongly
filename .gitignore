@@ -35,3 +35,4 @@ biltongly-*.tar
 npm-debug.log
 /assets/node_modules/
 
+biltongly_dev*
