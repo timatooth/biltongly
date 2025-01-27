@@ -1,120 +1,171 @@
 <div class="min-h-screen bg-gray-900 text-green-400 p-6 font-mono">
-      <div class="max-w-6xl mx-auto grid grid-cols-12 gap-6">
-        <!-- Status Header -->
-        <div class="col-span-12 flex justify-between items-center mb-6">
-          <h1 class="text-2xl font-bold">HADLEYS BILTONG MONITORING SYSTEM</h1>
-          <div class="flex items-center gap-2">
-            <div class={[
-              "h-3 w-3 rounded-full",
-              @connected? && "bg-green-500" || "bg-red-500"
-            ]}></div>
-            <span class="text-sm">
-              <%= if @connected?, do: "CONNECTED", else: "DISCONNECTED" %>
+  <div class="max-w-6xl mx-auto grid grid-cols-12 gap-6">
+    <!-- Status Header -->
+    <div class="col-span-12 flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">HADLEYS BILTONG MONITORING SYSTEM</h1>
+      <div class="flex items-center gap-2">
+        <div class={[
+          "h-3 w-3 rounded-full",
+          (@connected? && "bg-green-500") || "bg-red-500"
+        ]}>
+        </div>
+        <span class="text-sm">
+          {if @connected?, do: "CONNECTED", else: "DISCONNECTED"}
+        </span>
+      </div>
+      <.link
+        navigate={~p"/about"}
+        class="text-green-400 hover:text-green-300 px-4 py-2 rounded-t-lg bg-black/50"
+      >
+        ABOUT
+      </.link>
+    </div>
+    
+<!-- Camera Feed -->
+    <div class="col-span-8 bg-black rounded-lg p-4">
+      <div class="aspect-video bg-gray-800 rounded relative mb-4">
+        <img
+          src={@camera_url}
+          alt="Biltong Box Camera Feed"
+          class="w-full h-full object-cover rounded"
+        />
+        <div class="absolute bottom-4 right-4 bg-black/70 px-2 py-1 rounded text-sm">
+          LIVE FEED
+        </div>
+      </div>
+      
+<!-- Timelapse Controls -->
+      <div class="flex items-center gap-4">
+        <form>
+          <.input
+            type="range"
+            name="timelapse_position"
+            value={@timelapse_position}
+            class="flex-1"
+            min="0"
+            max="100"
+          />
+        </form>
+        <span class="text-sm">TIMELAPSE: {@timelapse_position}%</span>
+      </div>
+
+      <div class="bg-black/50 rounded-lg p-4">
+        <h2 class="text-lg mb-4">ML ANALYSIS</h2>
+        
+<!-- Doneness Estimation -->
+        <div class="mb-4">
+          <div class="flex justify-between mb-2">
+            <span>Est. Doneness</span>
+            <span class="text-xl font-bold">{@doneness_percent}%</span>
+          </div>
+          <div class="w-full bg-gray-700 rounded-full h-2.5">
+            <div class="bg-green-500 h-2.5 rounded-full" style={"width: #{@doneness_percent}%"}>
+            </div>
+          </div>
+        </div>
+        
+<!-- Ant Detection -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <span>Ant Risk Level</span>
+            <span class={[
+              "px-2 py-1 rounded text-sm",
+              @ant_risk_level == :high && "bg-red-900/50 text-red-400",
+              @ant_risk_level == :medium && "bg-yellow-900/50 text-yellow-400",
+              @ant_risk_level == :low && "bg-green-900/50 text-green-400"
+            ]}>
+              {String.upcase(to_string(@ant_risk_level))}
+              {if @ant_risk_level == :high, do: "🚨", else: "✓"}
             </span>
           </div>
-          <.link
-            navigate={~p"/about"}
-            class="text-green-400 hover:text-green-300 px-4 py-2 rounded-t-lg bg-black/50"
-          >
-            ABOUT
-          </.link>
-        </div>
-        
-        <!-- Camera Feed -->
-        <div class="col-span-8 bg-black rounded-lg p-4">
-          <div class="aspect-video bg-gray-800 rounded relative mb-4">
-            <img src={@camera_url} alt="Biltong Box Camera Feed" class="w-full h-full object-cover rounded" />
-            <div class="absolute bottom-4 right-4 bg-black/70 px-2 py-1 rounded text-sm">
-              LIVE FEED
-            </div>
-          </div>
-          
-          <!-- Timelapse Controls -->
-          <div class="flex items-center gap-4">
-          <form>
-            <.input
-              type="range"
-              name="timelapse_position"
-              value={@timelapse_position}
-              class="flex-1"
-              min="0"
-              max="100"
-            />
-            </form>
-            <span class="text-sm">TIMELAPSE: <%= @timelapse_position %>%</span>
-          </div>
-        </div>
-        
-        <!-- Metrics Panel -->
-        <div class="col-span-4 space-y-6">
-          <!-- Temperature -->
-          <div class="bg-black/50 rounded-lg p-4">
-            <h2 class="text-lg mb-4">TEMPERATURE CONTROL</h2>
-            <div class="text-4xl mb-4"><%= :erlang.float_to_binary(@temperature, decimals: 1) %>°C</div>
-            <div class="space-y-2">
-            <form phx-change="temp_change">
-              <.input
-                type="range"
-                name="temp_setpoint"
-                value={@temp_setpoint}
-                class="w-full"
-                min="15"
-                max="35"
-                step="0.5"
-              />
-              </form>
-              <div class="text-sm">
-                Setpoint: <%= :erlang.float_to_binary(@temp_setpoint, decimals: 1) %>°C
-              </div>
-              <div class="text-sm text-yellow-400">
-                Alert Range: <%= elem(@temp_alert_range, 0) %>°C - <%= elem(@temp_alert_range, 1) %>°C
-              </div>
-            </div>
-          </div>
-          
-          <!-- Humidity -->
-          <div class="bg-black/50 rounded-lg p-4">
-            <h2 class="text-lg mb-4">HUMIDITY CONTROL</h2>
-            <div class="text-4xl mb-4"><%= :erlang.float_to_binary(@humidity, decimals: 1) %>%</div>
-            <div class="space-y-2">
-              <.input
-                type="range"
-                name="humidity_setpoint"
-                value={@humidity_setpoint}
-                class="w-full"
-                min="40"
-                max="80"
-                step="1"
-              />
-              <div class="text-sm">
-                Setpoint: <%= :erlang.float_to_binary(@humidity_setpoint, decimals: 1) %>%
-              </div>
-              <div class="text-sm text-yellow-400">
-                Alert Range: <%= elem(@humidity_alert_range, 0) %>% - <%= elem(@humidity_alert_range, 1) %>%
-              </div>
-            </div>
-          </div>
-          
-          <!-- System Status -->
-          <div class="bg-black/50 rounded-lg p-4">
-            <h2 class="text-lg mb-4">SYSTEM STATUS</h2>
-            <div class="space-y-2">
-              <div class="flex justify-between">
-                <span>Light</span>
-                <span class={@light_status && "text-green-400" || "text-red-400"}>
-                  <%= @light_status && "ON" || "OFF" %>
+          <div class="text-sm">
+            <%= case @ant_risk_level do %>
+              <% :high -> %>
+                <span class="text-red-400">
+                  CRITICAL: Multiple insects detected! Check meat immediately! 🐜🐜🐜
                 </span>
-              </div>
-              <div class="flex justify-between">
-                <span>Fan Speed</span>
-                <span><%= @fan_speed %>%</span>
-              </div>
-              <div class="flex justify-between text-sm text-gray-400">
-                <span>Last Update</span>
-                <span><%= Calendar.strftime(@latest_update, "%H:%M:%S") %> UTC</span>
-              </div>
-            </div>
+              <% :medium -> %>
+                <span class="text-yellow-400">
+                  CAUTION: Suspicious movement detected. Monitoring... 🔍
+                </span>
+              <% :low -> %>
+                <span class="text-green-400">All clear. No insects detected. 👍</span>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
+    
+<!-- Metrics Panel -->
+    <div class="col-span-4 space-y-6">
+      <!-- Temperature -->
+      <div class="bg-black/50 rounded-lg p-4">
+        <h2 class="text-lg mb-4">TEMPERATURE CONTROL</h2>
+        <div class="text-4xl mb-4">{:erlang.float_to_binary(@temperature, decimals: 1)}°C</div>
+        <div class="space-y-2">
+          <form phx-change="temp_change">
+            <.input
+              type="range"
+              name="temp_setpoint"
+              value={@temp_setpoint}
+              class="w-full"
+              min="15"
+              max="35"
+              step="0.5"
+            />
+          </form>
+          <div class="text-sm">
+            Setpoint: {:erlang.float_to_binary(@temp_setpoint, decimals: 1)}°C
+          </div>
+          <div class="text-sm text-yellow-400">
+            Alert Range: {elem(@temp_alert_range, 0)}°C - {elem(@temp_alert_range, 1)}°C
+          </div>
+        </div>
+      </div>
+      
+<!-- Humidity -->
+      <div class="bg-black/50 rounded-lg p-4">
+        <h2 class="text-lg mb-4">HUMIDITY CONTROL</h2>
+        <div class="text-4xl mb-4">{:erlang.float_to_binary(@humidity, decimals: 1)}%</div>
+        <div class="space-y-2">
+          <.input
+            type="range"
+            name="humidity_setpoint"
+            value={@humidity_setpoint}
+            class="w-full"
+            min="40"
+            max="80"
+            step="1"
+          />
+          <div class="text-sm">
+            Setpoint: {:erlang.float_to_binary(@humidity_setpoint, decimals: 1)}%
+          </div>
+          <div class="text-sm text-yellow-400">
+            Alert Range: {elem(@humidity_alert_range, 0)}% - {elem(@humidity_alert_range, 1)}%
+          </div>
+        </div>
+      </div>
+      
+<!-- System Status -->
+      <div class="bg-black/50 rounded-lg p-4">
+        <h2 class="text-lg mb-4">SYSTEM STATUS</h2>
+        <div class="space-y-2">
+          <div class="flex justify-between">
+            <span>Light</span>
+            <span class={(@light_status && "text-green-400") || "text-red-400"}>
+              {(@light_status && "ON") || "OFF"}
+            </span>
+          </div>
+          <div class="flex justify-between">
+            <span>Fan Speed</span>
+            <span>{@fan_speed}%</span>
+          </div>
+          <div class="flex justify-between text-sm text-gray-400">
+            <span>Last Update</span>
+            <span>{Calendar.strftime(@latest_update, "%H:%M:%S")} UTC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
