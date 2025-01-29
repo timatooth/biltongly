@@ -27,7 +27,7 @@ defmodule BiltonglyWeb.BoxLive.Index do
     end
 
     Process.send_after(self(), :update_ant_risk_level, 5_000)
-    IO.puts("Mounted BoxLive.Index!!")
+
     {:ok, assign(socket, initial_state), layout: {BiltonglyWeb.Layouts, :root}}
   end
 
