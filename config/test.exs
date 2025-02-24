@@ -7,7 +7,7 @@ import Config
 # Run `mix help test` for more information.
 config :biltongly, Biltongly.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "toothpix-db-pass",
   hostname: "localhost",
   database: "biltongly_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,

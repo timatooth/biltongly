@@ -48,4 +48,11 @@ defmodule BiltonglyWeb.Router do
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end
+
+  # Add the BiltonglyWeb namespace here
+  scope "/api", BiltonglyWeb do
+    pipe_through :api
+
+    post "/soil_readings", SoilReadingController, :create
+  end
 end

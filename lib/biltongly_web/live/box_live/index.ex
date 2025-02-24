@@ -53,19 +53,19 @@ defmodule BiltonglyWeb.BoxLive.Index do
   def handle_info(:update_ant_risk_level, socket) do
     new_risk_level = Enum.random([:low, :medium, :high])
 
-    {:ok, temperature} =
-      GenServer.call(
-        {HelloNerves.TemperatureServer, :"nerves@fdaa:0:c3b7:a7b:9076:0:a:902"},
-        :get_temperature
-      )
+    # {:ok, temperature} =
+    #   GenServer.call(
+    #     {HelloNerves.TemperatureServer, :"nerves@fdaa:0:c3b7:a7b:9076:0:a:902"},
+    #     :get_temperature
+    #   )
 
     # Schedule another update. God this is silly
     Process.send_after(self(), :update_ant_risk_level, 5_000)
 
     {:noreply,
      assign(socket,
-       ant_risk_level: new_risk_level,
-       temperature: temperature
+       ant_risk_level: new_risk_level
+       # temperature: temperature
      )}
   end
 end
