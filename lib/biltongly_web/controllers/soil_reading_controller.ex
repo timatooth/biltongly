@@ -4,9 +4,13 @@ defmodule BiltonglyWeb.SoilReadingController do
   alias Biltongly.Sensors
 
   def create(conn, params) do
-    params_with_timestamp = Map.put(params, "measured_at", DateTime.utc_now())
+    transformed_params =
+      params
+      |> Map.put("measured_at", DateTime.utc_now())
+      |> Map.put("sensor_id", params["id"])
+      |> Map.delete("id")
 
-    case Sensors.create_soil_reading(params_with_timestamp) do
+    case Sensors.create_soil_reading(transformed_params) do
       {:ok, _soil_reading} ->
         send_resp(conn, :created, "")
 

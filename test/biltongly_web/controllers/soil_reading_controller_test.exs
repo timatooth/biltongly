@@ -2,14 +2,14 @@ defmodule BiltonglyWeb.SoilReadingControllerTest do
   use BiltonglyWeb.ConnCase
 
   @valid_attrs %{
-    "sensor_id" => 1,
+    "id" => 1,
     "uptime" => 1728,
     "temperature" => 26.5,
     "moisture" => 802,
     "rssi" => -56
   }
   @invalid_attrs %{
-    "sensor_id" => nil,
+    "id" => nil,
     "uptime" => nil,
     "temperature" => nil,
     "moisture" => nil,
@@ -33,7 +33,7 @@ defmodule BiltonglyWeb.SoilReadingControllerTest do
 
       # Verify it's in the database
       reading = Biltongly.Sensors.list_soil_readings() |> List.first()
-      assert reading.sensor_id == @valid_attrs["sensor_id"]
+      assert reading.sensor_id == @valid_attrs["id"]
       assert reading.uptime == @valid_attrs["uptime"]
       assert reading.moisture == @valid_attrs["moisture"]
       assert reading.rssi == @valid_attrs["rssi"]
