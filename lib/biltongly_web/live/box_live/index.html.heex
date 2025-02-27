@@ -164,6 +164,8 @@
             <span>Last Update</span>
             <span>{Calendar.strftime(@latest_update, "%H:%M:%S")} UTC</span>
           </div>
+          <strong>EGT</strong>
+          <.ecam_gauge value={@temp_setpoint} ticks={5} min={10} max={60} />
         </div>
       </div>
     </div>

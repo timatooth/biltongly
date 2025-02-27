@@ -1,5 +1,6 @@
 defmodule BiltonglyWeb.BoxLive.Index do
   use BiltonglyWeb, :live_view
+  import BiltonglyWeb.GaugeComponents
 
   @impl true
   def mount(_params, _session, socket) do
