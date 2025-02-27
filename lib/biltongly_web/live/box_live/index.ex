@@ -4,7 +4,9 @@ defmodule BiltonglyWeb.BoxLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    Node.connect(:"nerves@fdaa:0:c3b7:a7b:9076:0:a:902")
+    # Node.connect(:"nerves@fdaa:0:c3b7:a7b:9076:0:a:902")
+
+    reading = Biltongly.Sensors.get_latest_soil_reading()
 
     initial_state = %{
       temperature: 25.4,
@@ -21,7 +23,10 @@ defmodule BiltonglyWeb.BoxLive.Index do
       latest_update: DateTime.utc_now(),
       doneness_percent: 45,
       # Enum.random([:low, :medium, :high])
-      ant_risk_level: :low
+      ant_risk_level: :low,
+      soil_rssi: reading.rssi,
+      soil_temperature: Decimal.to_float(reading.temperature),
+      soil_moisture: reading.moisture
     }
 
     if connected?(socket) do
@@ -63,10 +68,13 @@ defmodule BiltonglyWeb.BoxLive.Index do
     # Schedule another update. God this is silly
     Process.send_after(self(), :update_ant_risk_level, 5_000)
 
+    reading = Biltongly.Sensors.get_latest_soil_reading()
+
     {:noreply,
      assign(socket,
-       ant_risk_level: new_risk_level
-       # temperature: temperature
+       ant_risk_level: new_risk_level,
+       soil_temperature: Decimal.to_float(reading.temperature),
+       soil_moisture: reading.moisture
      )}
   end
 end

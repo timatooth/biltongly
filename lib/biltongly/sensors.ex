@@ -37,6 +37,10 @@ defmodule Biltongly.Sensors do
   """
   def get_soil_reading!(id), do: Repo.get!(SoilReading, id)
 
+  def get_latest_soil_reading do
+    Repo.one(from reading in SoilReading, order_by: [desc: reading.measured_at], limit: 1)
+  end
+
   @doc """
   Creates a soil_reading.
 

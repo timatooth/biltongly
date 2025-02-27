@@ -157,7 +157,7 @@
             </span>
           </div>
           <div class="flex justify-between">
-            <span>Fan Speed</span>
+            <span>Fan Speed % N1</span>
             <span>{@fan_speed}%</span>
           </div>
           <div class="flex justify-between text-sm text-gray-400">
@@ -166,6 +166,10 @@
           </div>
           <strong>EGT</strong>
           <.ecam_gauge value={@temp_setpoint} ticks={5} min={10} max={60} />
+          <strong>Soil Moisture</strong>
+          <.ecam_gauge value={@soil_moisture} ticks={5} min={0} max={1000} />
+          <strong>Soil Temperature</strong>
+          <.ecam_gauge value={@soil_temperature} ticks={5} min={0} max={50} />
         </div>
       </div>
     </div>
