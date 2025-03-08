@@ -97,6 +97,7 @@
               <% end %>
             </div>
           </div>
+          <div class="space-y-2">{Phoenix.HTML.raw(@temp_graph)}</div>
         </div>
       </div>
       
@@ -170,13 +171,11 @@
             </div>
             
             <!-- Gauge Section -->
-            <div class="mt-3">
-              <strong class="text-sm ml-10 text-white">EGT</strong>
-              <.ecam_gauge value={@temp_setpoint} ticks={5} min={10} max={60} />
-            </div>
+
             <div class="mt-2">
               <strong class="text-sm ml-10 text-white">Soil Moisture</strong>
               <.ecam_gauge value={@soil_moisture} ticks={5} min={0} max={1000} />
+            
             </div>
             <div class="mt-2">
               <strong class="text-sm ml-10 text-white">Soil Temperature</strong>

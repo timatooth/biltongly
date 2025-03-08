@@ -1,6 +1,7 @@
 defmodule BiltonglyWeb.BoxLive.Index do
   use BiltonglyWeb, :live_view
   import BiltonglyWeb.GaugeComponents
+  alias VegaLite, as: Vl
 
   @impl true
   def mount(_params, _session, socket) do
@@ -10,6 +11,7 @@ defmodule BiltonglyWeb.BoxLive.Index do
 
     initial_state = %{
       temperature: 25.4,
+      temp_graph: create_graph(),
       humidity: 65.2,
       light_status: true,
       fan_speed: 75,
@@ -76,5 +78,39 @@ defmodule BiltonglyWeb.BoxLive.Index do
        soil_temperature: Decimal.to_float(reading.temperature),
        soil_moisture: reading.moisture
      )}
+  end
+
+  defp create_graph() do
+    result =
+      Biltongly.Repo.query!(
+        ~S"""
+        WITH hourly_averages AS (
+            SELECT
+                sensor_id,
+                count(sensor_id) as hourly_sample_count,
+                date_trunc('hour', measured_at) AS observation_hour,
+                AVG(temperature) AS hourly_avg_temperature,
+                AVG(moisture) AS hourly_avg_moisture
+            FROM
+                soil_readings
+            GROUP BY
+                sensor_id, observation_hour
+        )
+        select * from hourly_averages order by observation_hour desc;
+        """,
+        []
+      )
+
+    graph =
+      VegaLite.new(width: 500, background: "orange")
+      |> VegaLite.data_from_values(result,
+        only: ["observation_hour", "hourly_avg_temperature"]
+      )
+      |> VegaLite.mark(:point, tooltip: true)
+      |> VegaLite.encode_field(:x, "observation_hour", type: :temporal)
+      |> VegaLite.encode_field(:y, "hourly_avg_temperature", type: :quantitative)
+      |> VegaLite.param("name", select: "interval", bind: "scales")
+
+    VegaLite.Convert.to_svg(graph)
   end
 end
