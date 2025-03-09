@@ -17,7 +17,10 @@ defmodule Biltongly.Application do
       # Start a worker by calling: Biltongly.Worker.start_link(arg)
       # {Biltongly.Worker, arg},
       # Start to serve requests, typically the last entry
-      BiltonglyWeb.Endpoint
+      BiltonglyWeb.Endpoint,
+      Biltongly.BhyveServer
+      # pass in url to websocket
+      # {Biltongly.BhyveWebsocket, ["WebSockex is Great"]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

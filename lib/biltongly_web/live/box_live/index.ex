@@ -1,7 +1,6 @@
 defmodule BiltonglyWeb.BoxLive.Index do
   use BiltonglyWeb, :live_view
   import BiltonglyWeb.GaugeComponents
-  alias VegaLite, as: Vl
 
   @impl true
   def mount(_params, _session, socket) do

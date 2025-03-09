@@ -20,6 +20,7 @@ defmodule BiltonglyWeb.Router do
     # get "/", PageController, :home
     live "/", BoxLive.Index, :index
     live "/about", BoxLive.About, :about
+    live "/water-timer", WaterTimerLive.Index, :index
     # live "/boxes/new", BoxLive.Index, :new
     # live "/boxes/:id/edit", BoxLive.Index, :edit
 

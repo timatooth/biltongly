@@ -20,6 +20,9 @@ if System.get_env("PHX_SERVER") do
   config :biltongly, BiltonglyWeb.Endpoint, server: true
 end
 
+config :biltongly, Biltongly.BhyveServer,
+  orbit_session_token: System.get_env("ORBIT_SESSION_TOKEN")
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

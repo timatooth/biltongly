@@ -59,7 +59,9 @@ defmodule Biltongly.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:vega_lite, "~> 0.1.11"},
-      {:vega_lite_convert, "~> 1.0.1"}
+      {:vega_lite_convert, "~> 1.0.1"},
+      {:req, "~> 0.5.8"},
+      {:websockex, "~> 0.4.3"}
     ]
   end
 
