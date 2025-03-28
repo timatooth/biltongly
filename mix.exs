@@ -61,7 +61,8 @@ defmodule Biltongly.MixProject do
       {:vega_lite, "~> 0.1.11"},
       {:vega_lite_convert, "~> 1.0.1"},
       {:req, "~> 0.5.8"},
-      {:websockex, "~> 0.4.3"}
+      {:websockex, "~> 0.4.3"},
+      {:mishka_chelekom, "~> 0.0.4", only: :dev}
     ]
   end
 
