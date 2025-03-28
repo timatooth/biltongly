@@ -10,7 +10,7 @@ defmodule Biltongly.BhyveWebsocket do
     IO.puts("Connected to websocket")
     token = Application.get_env(:biltongly, Biltongly.BhyveServer)[:orbit_session_token]
     # send a message to add the token
-    message = %{
+    _message = %{
       event: "app_connection",
       orbit_session_token: token
     }

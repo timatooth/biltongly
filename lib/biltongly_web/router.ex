@@ -26,6 +26,21 @@ defmodule BiltonglyWeb.Router do
 
     # live "/boxes/:id", BoxLive.Show, :show
     # live "/boxes/:id/show/edit", BoxLive.Show, :edit
+    # 
+    # ecommerce time!
+    live "/products", ProductLive.Index, :index
+    live "/products/new", ProductLive.Index, :new
+    live "/products/:id/edit", ProductLive.Index, :edit
+
+    live "/products/:id", ProductLive.Show, :show
+    live "/products/:id/show/edit", ProductLive.Show, :edit
+
+    live "/cart", CartLive.Index, :index
+    live "/cart/new", CartLive.Index, :new
+    live "/cart/:id/edit", CartLive.Index, :edit
+
+    live "/cart/:id", CartLive.Show, :show
+    live "/cart/:id/show/edit", CartLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

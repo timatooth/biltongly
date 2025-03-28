@@ -1,0 +1,41 @@
+<.header>
+  Listing Cart
+  <:actions>
+    <.link patch={~p"/cart/new"}>
+      <.button>New Cart</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="cart"
+  rows={@streams.cart_collection}
+  row_click={fn {_id, cart} -> JS.navigate(~p"/cart/#{cart}") end}
+>
+  <:col :let={{_id, cart}} label="Owner">{cart.owner}</:col>
+  <:action :let={{_id, cart}}>
+    <div class="sr-only">
+      <.link navigate={~p"/cart/#{cart}"}>Show</.link>
+    </div>
+    <.link patch={~p"/cart/#{cart}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, cart}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: cart.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="cart-modal" show on_cancel={JS.patch(~p"/cart")}>
+  <.live_component
+    module={BiltonglyWeb.CartLive.FormComponent}
+    id={@cart.id || :new}
+    title={@page_title}
+    action={@live_action}
+    cart={@cart}
+    patch={~p"/cart"}
+  />
+</.modal>
