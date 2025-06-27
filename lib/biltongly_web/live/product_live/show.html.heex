@@ -15,6 +15,8 @@
   <:item title="Price">{@product.price}</:item>
 </.list>
 
+<.image src="/images/biltong-product.jpg" rounded="medium"shadow="extra_large"/>
+
 <.back navigate={~p"/products"}>Back to products</.back>
 
 <.modal :if={@live_action == :edit} id="product-modal" show on_cancel={JS.patch(~p"/products/#{@product}")}>

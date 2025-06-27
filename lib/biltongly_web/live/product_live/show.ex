@@ -1,5 +1,6 @@
 defmodule BiltonglyWeb.ProductLive.Show do
   use BiltonglyWeb, :live_view
+  import BiltonglyWeb.Components.Image
 
   alias Biltongly.Shopping
 
